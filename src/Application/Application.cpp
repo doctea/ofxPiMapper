@@ -134,8 +134,14 @@ void Application::onKeyPressed(ofKeyEventArgs & args){
 	 case 'n':
 		 setNextPreset();
 		 break;
-	 case 'm':
+	 case 'c':
 		createPreset();
+		break;
+	 case 'v':
+		cloneActivePreset();
+		break;
+	 case 'b':
+		eraseActivePreset();
 		break;
 
 	 default:
@@ -238,6 +244,12 @@ void Application::setPreset(unsigned int i){
 
 void Application::createPreset() {
 	_surfaceManager.createPreset();
+}
+void Application::cloneActivePreset() {
+	_surfaceManager.cloneActivePreset();
+}
+void Application::eraseActivePreset() {
+	_surfaceManager.eraseActivePreset();
 }
 
 void Application::setNextPreset(){

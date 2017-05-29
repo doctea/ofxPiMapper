@@ -138,6 +138,8 @@ class Application {
 	
 		void setPreset(unsigned int i);
 		void setNextPreset();
+		void cloneActivePreset();
+		void eraseActivePreset();
 
 		void createPreset();
 	
