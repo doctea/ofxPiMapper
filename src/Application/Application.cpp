@@ -134,6 +134,9 @@ void Application::onKeyPressed(ofKeyEventArgs & args){
 	 case 'n':
 		 setNextPreset();
 		 break;
+	 case 'm':
+		createPreset();
+		break;
 
 	 default:
 		 // All the other keypresses are handled by the application state onKeyPressed
@@ -231,6 +234,10 @@ bool Application::isShiftKeyDown(){
 
 void Application::setPreset(unsigned int i){
 	_cmdManager.exec(new SetPresetCmd(this, i));
+}
+
+void Application::createPreset() {
+	_surfaceManager.createPreset();
 }
 
 void Application::setNextPreset(){

@@ -138,6 +138,8 @@ class Application {
 	
 		void setPreset(unsigned int i);
 		void setNextPreset();
+
+		void createPreset();
 	
 		// System commands
 		void reboot();
