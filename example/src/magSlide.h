@@ -30,7 +30,7 @@ public:
 		 * No resizing applied, displays the slide in its native pixel dimensions.
 		 * This is the default behavior.
 		 */
-				None = 0,
+				DefaultNone = 0,
 		/**
 		 * Explicitly set a slide to display in its native dimension.
 		 * None and NoResize result in the same output, but if you specify
@@ -136,7 +136,7 @@ protected:
 	float width;
 	float height;
 	ofPoint position;
-	ResizeOptions resizeOption = None;
+	ResizeOptions resizeOption = DefaultNone;
 	SlideState slideState = Off;
 	bool isComplete;
 
