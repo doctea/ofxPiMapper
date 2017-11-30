@@ -27,8 +27,8 @@ void SurfaceStack::swap(int a, int b){
 
 void SurfaceStack::draw(){
 	for(int i = 0; i < _surfaces.size(); ++i){
-		if (_surfaces[i]->isEnabled())
-			return;
+		//if (_surfaces[i]->isEnabled())
+		//	return;
 
 		if(_surfaces[i]->getSource()->getType() == SourceType::SOURCE_TYPE_FBO){
 			glEnable(GL_BLEND);
