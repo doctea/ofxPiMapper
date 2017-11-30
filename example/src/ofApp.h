@@ -32,11 +32,6 @@ public:
     // you will be able to see the source listed in sources editor
     CustomSource *customSource;
     CrossSource *crossSource;
+    CustomShader *customShader;
     magSlideShowSource *slideShowSource;
-
-		// By using a custom source that is derived from FboSource
-		// you will be able to see the source listed in sources editor
-		CustomSource * customSource;
-		CrossSource * crossSource;
-		CustomShader * customShader;
 };
