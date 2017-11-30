@@ -137,7 +137,7 @@ void Application::onKeyPressed(ofKeyEventArgs & args){
 	 case 'f':
 		 setNextPreset();
 		 break;
-	 case 'c':
+	 case 'a':
 		createPreset();
 		break;
 	 case 'v':

@@ -30,5 +30,6 @@ int main(int argc, char * argv[]){
     settings.windowMode = mode;
     ofCreateWindow(settings);
 
+	ofSetupOpenGL(1024, 768, OF_WINDOW);
 	ofRunApp(new ofApp());
 }
