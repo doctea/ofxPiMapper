@@ -147,7 +147,7 @@ void ofxPiMapper::togglePause(){
 	_application.togglePause();
 }
 
-void ofxPiMapper::moveSelection(ofDefaultVec2 by){
+void ofxPiMapper::moveSelection(ofVec2f by){
 	_application.moveSelection(by);
 }
 

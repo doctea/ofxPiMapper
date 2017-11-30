@@ -38,7 +38,7 @@ class ProjectionMappingMode : public ApplicationBaseMode {
 	
 		float _surfaceScaleBeforeTransform;
 	
-		ofDefaultVec2 _clickPosition;
+		ofVec2f _clickPosition;
 	
 		bool _bSurfaceDrag;
 		bool _bDrawLayerPanel;

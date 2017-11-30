@@ -15,27 +15,27 @@ class HexagonSurface : public BaseSurface {
 
 		void setup();
 		void setup(
-			vector <ofDefaultVec3> & verts,
-			vector <ofDefaultVec2> & coords,
+			vector <ofVec3f> & verts,
+			vector <ofVec2f> & coords,
 			BaseSource * newSource);
 		void draw();
 	
-		void setVertex(int index, ofDefaultVec3 v);
-		void setVertices(vector<ofDefaultVec3> v);
+		void setVertex(int index, ofVec3f v);
+		void setVertices(vector<ofVec3f> v);
 	
-		void setTexCoord(int index, ofDefaultVec2 t);
-		void setTexCoords(vector<ofDefaultVec2> t);
+		void setTexCoord(int index, ofVec2f t);
+		void setTexCoords(vector<ofVec2f> t);
 	
-		void moveBy(ofDefaultVec2 v);
+		void moveBy(ofVec2f v);
 
 		int getType();
-		bool hitTest(ofDefaultVec2 p);
-		ofDefaultVec3 getVertex(int index);
-		ofDefaultVec2 getTexCoord(int index);
+		bool hitTest(ofVec2f p);
+		ofVec3f getVertex(int index);
+		ofVec2f getTexCoord(int index);
 		ofPolyline getHitArea();
 		ofPolyline getTextureHitArea();
-		vector <ofDefaultVec3> & getVertices();
-		vector <ofDefaultVec2> & getTexCoords();
+		vector <ofVec3f> & getVertices();
+		vector <ofVec2f> & getTexCoords();
 	
 		BaseSurface * clone();
 };

@@ -18,7 +18,7 @@ void AddGridColCmd::exec(){
 void AddGridColCmd::undo(){
 	ofLogNotice("AddGridColCmd", "undo");
 	_surface->setGridCols(_surface->getGridCols() - 1);
-	vector <ofDefaultVec3> v;
+	vector <ofVec3f> v;
 	for(int i = 0; i < _vertices.size(); ++i){
 		v.push_back(_vertices[i]);
 	}

@@ -34,7 +34,7 @@ class TextureMappingMode : public ApplicationBaseMode {
 		void onGuiEvent(Application * app, GuiEvent & e){}
 
 		void drawTexture(Application * app);
-		void moveSelectedTexCoord(Application * app, ofDefaultVec2 by);
+		void moveSelectedTexCoord(Application * app, ofVec2f by);
 		void selectNextVertex(Application * app);
 		void selectPrevVertex(Application * app);
 	
@@ -62,7 +62,7 @@ class TextureMappingMode : public ApplicationBaseMode {
 		ofPoint _prevCanvasTranslate;
 		ofPoint _clickCanvasTranslate;
 	
-		ofDefaultVec2 _texCoordOnClick;
+		ofVec2f _texCoordOnClick;
 
 };
 

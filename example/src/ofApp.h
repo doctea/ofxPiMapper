@@ -1,5 +1,7 @@
 #pragma once
 
+#define OF_USE_LEGACY_MESH
+
 #include "ofMain.h"
 #include "Settings.h"
 #include "ofxPiMapper.h"

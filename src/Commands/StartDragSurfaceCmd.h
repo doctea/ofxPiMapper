@@ -15,7 +15,7 @@ class StartDragSurfaceCmd : public BaseUndoCmd {
 
 	private:
 		BaseSurface * _surface;
-		vector <ofDefaultVec3> _previousVertices;
+		vector <ofVec3f> _previousVertices;
 
 };
 

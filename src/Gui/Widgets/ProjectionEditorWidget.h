@@ -22,15 +22,15 @@ class ProjectionEditorWidget {
 		void createJoints();
 		void updateJoints();
 		void unselectAllJoints();
-		void moveSelectedSurface(ofDefaultVec2 by);
+		void moveSelectedSurface(ofVec2f by);
 		void stopDragJoints();
 		void updateVertices();
 		void setSnapDistance(float newSnapDistance);
-		CircleJoint * hitTestJoints(ofDefaultVec2 pos);
+		CircleJoint * hitTestJoints(ofVec2f pos);
 		vector <CircleJoint *> * getJoints();
 	
 		void onVertexChanged(int & i);
-		void onVerticesChanged(vector<ofDefaultVec3> & vertices);
+		void onVerticesChanged(vector<ofVec3f> & vertices);
 		void onSurfaceSelected(int & surfaceIndex);
 		void onVertexSelected(int & vertexIndex);
 		void onVertexUnselected(int & vertexIndex);

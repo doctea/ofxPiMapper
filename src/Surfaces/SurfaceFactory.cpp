@@ -27,16 +27,16 @@ BaseSurface * SurfaceFactory::createSurface(SurfaceType type){
 }
 
 TriangleSurface * SurfaceFactory::createTriangleSurface(){
-	vector <ofDefaultVec3> vertices;
+	vector <ofVec3f> vertices;
 	float margin = 50.0f;
-	vertices.push_back(ofDefaultVec3((float)ofGetWidth() / 2.0f, margin, 0));
-	vertices.push_back(ofDefaultVec3((float)ofGetWidth() - margin, (float)ofGetHeight() - margin, 0));
-	vertices.push_back(ofDefaultVec3(margin, (float)ofGetHeight() - margin, 0));
+	vertices.push_back(ofVec3f((float)ofGetWidth() / 2.0f, margin, 0));
+	vertices.push_back(ofVec3f((float)ofGetWidth() - margin, (float)ofGetHeight() - margin, 0));
+	vertices.push_back(ofVec3f(margin, (float)ofGetHeight() - margin, 0));
 
-	vector <ofDefaultVec2> texCoords;
-	texCoords.push_back(ofDefaultVec2(0.5f, 0.0f));
-	texCoords.push_back(ofDefaultVec2(1.0f, 1.0f));
-	texCoords.push_back(ofDefaultVec2(0.0f, 1.0f));
+	vector <ofVec2f> texCoords;
+	texCoords.push_back(ofVec2f(0.5f, 0.0f));
+	texCoords.push_back(ofVec2f(1.0f, 1.0f));
+	texCoords.push_back(ofVec2f(0.0f, 1.0f));
 	
 	TriangleSurface * triangleSurface = new TriangleSurface();
 
@@ -49,18 +49,18 @@ TriangleSurface * SurfaceFactory::createTriangleSurface(){
 }
 
 QuadSurface * SurfaceFactory::createQuadSurface(){
-	vector <ofDefaultVec3> vertices;
+	vector <ofVec3f> vertices;
 	float margin = 50.0f;
-	vertices.push_back(ofDefaultVec3(margin, margin, 0));
-	vertices.push_back(ofDefaultVec3((float)ofGetWidth() - margin, margin, 0));
-	vertices.push_back(ofDefaultVec3((float)ofGetWidth() - margin, (float)ofGetHeight() - margin, 0));
-	vertices.push_back(ofDefaultVec3(margin, (float)ofGetHeight() - margin, 0));
+	vertices.push_back(ofVec3f(margin, margin, 0));
+	vertices.push_back(ofVec3f((float)ofGetWidth() - margin, margin, 0));
+	vertices.push_back(ofVec3f((float)ofGetWidth() - margin, (float)ofGetHeight() - margin, 0));
+	vertices.push_back(ofVec3f(margin, (float)ofGetHeight() - margin, 0));
 
-	vector <ofDefaultVec2> texCoords;
-	texCoords.push_back(ofDefaultVec2(ofDefaultVec2(0.0f, 0.0f)));
-	texCoords.push_back(ofDefaultVec2(ofDefaultVec2(1.0f, 0.0f)));
-	texCoords.push_back(ofDefaultVec2(ofDefaultVec2(1.0f, 1.0f)));
-	texCoords.push_back(ofDefaultVec2(ofDefaultVec2(0.0f, 1.0f)));
+	vector <ofVec2f> texCoords;
+	texCoords.push_back(ofVec2f(ofVec2f(0.0f, 0.0f)));
+	texCoords.push_back(ofVec2f(ofVec2f(1.0f, 0.0f)));
+	texCoords.push_back(ofVec2f(ofVec2f(1.0f, 1.0f)));
+	texCoords.push_back(ofVec2f(ofVec2f(0.0f, 1.0f)));
 	
 	QuadSurface * quadSurface = new QuadSurface();
 	quadSurface->setPerspectiveWarping(true);

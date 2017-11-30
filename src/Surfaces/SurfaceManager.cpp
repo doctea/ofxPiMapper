@@ -303,14 +303,14 @@ void SurfaceManager::selectVertex(int i){
 	ofNotifyEvent(vertexSelectedEvent, _selectedVertexIndex, this);
 }
 
-void SurfaceManager::moveSelectionBy(ofDefaultVec2 v){
+void SurfaceManager::moveSelectionBy(ofVec2f v){
 	if(selectedSurface == 0){
 		moveAllSurfacesBy(v);
 		return;
 	}
 	
 	if(_selectedVertexIndex != -1){
-		selectedSurface->getVertices()[_selectedVertexIndex] += ofDefaultVec3(v.x, v.y, 0);
+		selectedSurface->getVertices()[_selectedVertexIndex] += ofVec3f(v.x, v.y, 0);
 		ofNotifyEvent(vertexChangedEvent, _selectedVertexIndex, this);
 	}else{
 		selectedSurface->moveBy(v);
@@ -321,7 +321,7 @@ void SurfaceManager::moveSelectionBy(ofDefaultVec2 v){
 	// it could be implemented as vector here.
 }
 
-void SurfaceManager::moveAllSurfacesBy(ofDefaultVec2 v){
+void SurfaceManager::moveAllSurfacesBy(ofVec2f v){
 	if(_activePresetIndex < 0){
 		ofLogWarning(
 			"SurfaceManager::moveAllSurfacesBy",
@@ -393,7 +393,7 @@ void SurfaceManager::onVertexChanged(int & i){
 	ofNotifyEvent(vertexChangedEvent, i, this);
 }
 
-void SurfaceManager::onVerticesChanged(vector<ofDefaultVec3> & vertices){
+void SurfaceManager::onVerticesChanged(vector<ofVec3f> & vertices){
 	ofNotifyEvent(verticesChangedEvent, vertices, this);
 }
 

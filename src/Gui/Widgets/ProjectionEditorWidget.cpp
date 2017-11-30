@@ -16,7 +16,7 @@ void ProjectionEditorWidget::update(){
 			if(surfaceManager->getSelectedSurface() != 0){
 				// update vertex to new location
 				surfaceManager->getSelectedSurface()->setVertex(i,
-					ofDefaultVec3(joints[i]->position.x, joints[i]->position.y, 0));
+					ofVec3f(joints[i]->position.x, joints[i]->position.y, 0));
 			}else{
 				// clear joints if there is no surface selected
 				// as the remove selected surface in the surface manager
@@ -48,10 +48,10 @@ void ProjectionEditorWidget::mouseDragged(ofMouseEventArgs & args){
 		joints[i]->mouseDragged(args);
 	}
 	
-	ofDefaultVec2 mousePosition = ofDefaultVec2(args.x, args.y);
+	ofVec2f mousePosition = ofVec2f(args.x, args.y);
 
 	// Collect all vertices of the projection surfaces
-	vector <ofDefaultVec3 *> allVertices;
+	vector <ofVec3f *> allVertices;
 	for(int i = 0; i < surfaceManager->size(); i++){
 		BaseSurface * surface = surfaceManager->getSurface(i);
 		if(surface == surfaceManager->getSelectedSurface()){
@@ -71,10 +71,10 @@ void ProjectionEditorWidget::mouseDragged(ofMouseEventArgs & args){
 				float distance = m.distance(p);
 				if(distance < fSnapDistance){
 					joints[i]->position = *allVertices[j];	
-					ofDefaultVec2 clickDistance = joints[i]->position - ofDefaultVec2(args.x, args.y);
+					ofVec2f clickDistance = joints[i]->position - ofVec2f(args.x, args.y);
 					/*joints[i]->position.x = allVertices[j]->x;
 					joints[i]->position.y = allVertices[i]->y;
-					ofDefaultVec2 clickDistance = joints[i]->position - ofDefaultVec2(args.x, args.y);*/
+					ofVec2f clickDistance = joints[i]->position - ofVec2f(args.x, args.y);*/
 					joints[i]->setClickDistance(clickDistance);
 					break;
 				}
@@ -136,21 +136,21 @@ void ProjectionEditorWidget::createJoints(){
 		return;
 	}
 
-	vector <ofDefaultVec3> & vertices =
+	vector <ofVec3f> & vertices =
 		surfaceManager->getSelectedSurface()->getVertices();
 
 	for(int i = 0; i < vertices.size(); i++){
 		joints.push_back(new CircleJoint());
-		joints.back()->position = ofDefaultVec2(vertices[i].x, vertices[i].y);
+		joints.back()->position = ofVec2f(vertices[i].x, vertices[i].y);
 	}
 }
 
 void ProjectionEditorWidget::updateJoints(){
 	if(surfaceManager->getSelectedSurface()){
-		vector <ofDefaultVec3> & vertices =
+		vector <ofVec3f> & vertices =
 			surfaceManager->getSelectedSurface()->getVertices();
 		for(int i = 0; i < vertices.size(); i++){
-			joints[i]->position = ofDefaultVec2(vertices[i].x, vertices[i].y);
+			joints[i]->position = ofVec2f(vertices[i].x, vertices[i].y);
 		}
 	}
 
@@ -162,7 +162,7 @@ void ProjectionEditorWidget::unselectAllJoints(){
 	}
 }
 
-void ProjectionEditorWidget::moveSelectedSurface(ofDefaultVec2 by){
+void ProjectionEditorWidget::moveSelectedSurface(ofVec2f by){
 	if(surfaceManager == 0){
 		return;
 	}
@@ -183,7 +183,7 @@ void ProjectionEditorWidget::setSnapDistance(float newSnapDistance){
 	fSnapDistance = newSnapDistance;
 }
 
-CircleJoint * ProjectionEditorWidget::hitTestJoints(ofDefaultVec2 pos){
+CircleJoint * ProjectionEditorWidget::hitTestJoints(ofVec2f pos){
 	if(surfaceManager->getSelectedSurface() == 0){
 		return 0;
 	}
@@ -210,7 +210,7 @@ void ProjectionEditorWidget::onVertexChanged(int & i){
 	}
 }
 
-void ProjectionEditorWidget::onVerticesChanged(vector<ofDefaultVec3> & vertices){
+void ProjectionEditorWidget::onVerticesChanged(vector<ofVec3f> & vertices){
 	createJoints();
 }
 

@@ -1,3 +1,5 @@
+#define OF_USE_LEGACY_MESH
+
 #pragma once
 
 #include "ofEvents.h"
@@ -66,7 +68,7 @@ class ofxPiMapper {
 		void scaleDown();
 		void togglePauseForSurface(unsigned int i);
 		void togglePause();
-		void moveSelection(ofDefaultVec2 by);
+		void moveSelection(ofVec2f by);
 		void createSurface(ofx::piMapper::SurfaceType type);
 		void eraseSurface(int i);
 	

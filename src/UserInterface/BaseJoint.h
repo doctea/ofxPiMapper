@@ -10,7 +10,7 @@ class BaseJoint {
 	public:
 		BaseJoint();
 
-		ofDefaultVec2 position;
+		ofVec2f position;
 		bool enabled;
 		bool visible;
 		bool selected;
@@ -22,13 +22,13 @@ class BaseJoint {
 		void stopDrag();
 		void select();
 		void unselect();
-		void setClickDistance(ofDefaultVec2 newClickDistance);
+		void setClickDistance(ofVec2f newClickDistance);
 		bool isDragged();
 		bool isSelected();
 
 		virtual void update(){}
 		virtual void draw(){}
-		virtual bool hitTest(ofDefaultVec2 position){ return false; }
+		virtual bool hitTest(ofVec2f position){ return false; }
 
 	protected:
 		ofColor fillColor;
@@ -36,7 +36,7 @@ class BaseJoint {
 		ofColor fillColorSelected;
 		ofColor strokeColorSelected;
 		float strokeWidth;
-		ofDefaultVec2 clickDistance; // How far from the center of the joint the user has
+		ofVec2f clickDistance; // How far from the center of the joint the user has
 		                       // clicked?
 		bool bDrag;
 

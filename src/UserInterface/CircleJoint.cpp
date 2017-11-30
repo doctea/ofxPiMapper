@@ -59,7 +59,7 @@ void CircleJoint::setDefaultProperties(){
 	radius = 10.0f;
 }
 
-bool CircleJoint::hitTest(ofDefaultVec2 pos){
+bool CircleJoint::hitTest(ofVec2f pos){
 	ofPoint a = ofPoint(position.x, position.y);
 	ofPoint b = ofPoint(pos.x, pos.y);
 

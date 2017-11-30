@@ -30,7 +30,7 @@ void RmGridRowCmd::undo(){
 	}
 	
 	_surface->setGridRows(_surface->getGridRows() + 1);
-	vector <ofDefaultVec3> v;
+	vector <ofVec3f> v;
 	
 	for(int i = 0; i < _vertices.size(); ++i){
 		v.push_back( _vertices[i] );

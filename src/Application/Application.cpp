@@ -375,7 +375,7 @@ void Application::selectPrevTexCoord(){
 	}
 }
 
-void Application::moveSelection(ofDefaultVec2 by){
+void Application::moveSelection(ofVec2f by){
 	if(_state == ProjectionMappingMode::instance()){
 		getCmdManager()->exec(new MvSelectionCmd(getSurfaceManager(), by));
 	}else if(_state == TextureMappingMode::instance()){
@@ -547,7 +547,7 @@ void Application::togglePause(){
 	}
 }
 
-void Application::moveTexCoord(int texCoordIndex, ofDefaultVec2 by){
+void Application::moveTexCoord(int texCoordIndex, ofVec2f by){
 	if(texCoordIndex >= 0){
 		getCmdManager()->exec(new MvTexCoordCmd(texCoordIndex, by));
 	}else{

@@ -60,7 +60,7 @@ BaseSurface * SurfaceStack::back(){
 	return _surfaces.back();
 }
 
-void SurfaceStack::onVerticesChanged(vector<ofDefaultVec3> & vertices){
+void SurfaceStack::onVerticesChanged(vector<ofVec3f> & vertices){
 	ofNotifyEvent(verticesChangedEvent, vertices, this);
 }
 

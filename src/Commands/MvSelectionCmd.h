@@ -9,13 +9,13 @@ namespace piMapper {
 class MvSelectionCmd : public BaseUndoCmd {
 
 	public:
-		MvSelectionCmd(SurfaceManager * sm, ofDefaultVec2 moveBy);
+		MvSelectionCmd(SurfaceManager * sm, ofVec2f moveBy);
 		void exec();
 		void undo();
 
 	private:
 		SurfaceManager * _surfaceManager;
-		ofDefaultVec2 _movedBy;
+		ofVec2f _movedBy;
 
 };
 

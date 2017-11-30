@@ -3,7 +3,7 @@
 namespace ofx {
 namespace piMapper {
 
-MvTexCoordCmd::MvTexCoordCmd(int texCoordIndex, ofDefaultVec2 by){
+MvTexCoordCmd::MvTexCoordCmd(int texCoordIndex, ofVec2f by){
 	_texCoordIndex = texCoordIndex;
 	_moveBy = by;
 }
