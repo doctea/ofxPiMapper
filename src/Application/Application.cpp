@@ -136,6 +136,15 @@ void Application::onKeyPressed(ofKeyEventArgs & args){
 	 case 'n':
 		 setNextPreset();
 		 break;
+	 case 'c':
+		createPreset();
+		break;
+	 case 'v':
+		cloneActivePreset();
+		break;
+	 case 'b':
+		eraseActivePreset();
+		break;
 
 	 default:
 		 // All the other keypresses are handled by the application state onKeyPressed
@@ -233,6 +242,16 @@ bool Application::isShiftKeyDown(){
 
 void Application::setPreset(unsigned int i){
 	_cmdManager.exec(new SetPresetCmd(this, i));
+}
+
+void Application::createPreset() {
+	_surfaceManager.createPreset();
+}
+void Application::cloneActivePreset() {
+	_surfaceManager.cloneActivePreset();
+}
+void Application::eraseActivePreset() {
+	_surfaceManager.eraseActivePreset();
 }
 
 void Application::setNextPreset(){
@@ -356,7 +375,7 @@ void Application::selectPrevTexCoord(){
 	}
 }
 
-void Application::moveSelection(ofVec2f by){
+void Application::moveSelection(ofDefaultVec2 by){
 	if(_state == ProjectionMappingMode::instance()){
 		getCmdManager()->exec(new MvSelectionCmd(getSurfaceManager(), by));
 	}else if(_state == TextureMappingMode::instance()){
@@ -528,7 +547,7 @@ void Application::togglePause(){
 	}
 }
 
-void Application::moveTexCoord(int texCoordIndex, ofVec2f by){
+void Application::moveTexCoord(int texCoordIndex, ofDefaultVec2 by){
 	if(texCoordIndex >= 0){
 		getCmdManager()->exec(new MvTexCoordCmd(texCoordIndex, by));
 	}else{
