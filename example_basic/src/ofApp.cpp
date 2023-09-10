@@ -16,13 +16,13 @@ void ofApp::setup(){
 
 	mapper.setup();
 
-	ofSetFullscreen(Settings::instance()->getFullscreen());
+	//ofSetFullscreen(Settings::instance()->getFullscreen());
 	//ofSetEscapeQuitsApp(false);
     //ofSetLogLevel(OF_LOG_VERBOSE);
 
-	#ifdef TARGET_RASPBERRY_PI
+	//#ifdef TARGET_RASPBERRY_PI
 	  	ofSetFullscreen(true);
-  	#endif
+  	//#endif
 }
 
 void ofApp::update(){

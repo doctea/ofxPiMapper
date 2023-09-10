@@ -14,7 +14,7 @@ int main(int argc, char * argv[]){
 	if (fullscreen)
 		Settings::instance()->setFullscreen(fullscreen);
 	else {
-		ofSetupOpenGL(800, 450, OF_WINDOW);
+		ofSetupOpenGL(1024, 768, OF_WINDOW);
 	}
 	
 	int w = 800;
@@ -28,7 +28,7 @@ int main(int argc, char * argv[]){
     settings.setSize(w,h);
     settings.setGLESVersion(2);
     settings.windowMode = mode;
-    ofCreateWindow(settings);
+    //ofCreateWindow(settings);
 
 	ofRunApp(new ofApp());
 }
