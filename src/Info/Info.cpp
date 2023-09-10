@@ -15,7 +15,7 @@ Info::Info(){
 		"  - Press \"<\" and \">\" to select previous or next vertex\n"
 		"  - Press <t> to add new Triangle surface\n"
 		"  - Press <q> to add new Quad surface\n"
-		"  - Press <r> to add a new ciRcle surface\n"
+		"  - Press <c> to add a new Circle surface\n"
 		"  - Press <p> to toggle Perspective warping while quad surface selected\n"
 		"  - Press <F> to expand selected quad surface to fill screen\n"
 		"  - Press <g> to add new Grid surface\n"

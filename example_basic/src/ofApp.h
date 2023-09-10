@@ -1,7 +1,12 @@
 #pragma once
 
 #include "ofMain.h"
+#include "Settings.h"
 #include "ofxPiMapper.h"
+#include "Sources/CustomSource.h"
+#include "Sources/CrossSource.h"
+#include "Sources/VideoSource.h"
+#include "Sources/CustomShader.h"
 
 class ofApp : public ofBaseApp{
 public:
@@ -22,4 +27,10 @@ public:
 	
 	// This is our mapper object.
 	ofxPiMapper mapper;
+
+    // By using a custom source that is derived from FboSource
+    // you will be able to see the source listed in sources editor
+    CustomSource *customSource;
+    CrossSource *crossSource;
+    CustomShader *customShader;
 };
