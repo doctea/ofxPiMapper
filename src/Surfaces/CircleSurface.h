@@ -27,6 +27,8 @@ class CircleSurface : public QuadSurface {
 		// TODO: Feathering
 		void setFeathering(float f);
 
+		BaseSurface * clone();
+
 	protected:
 		void setupTextures();
 		void drawMaskForSource(ofTexture &sourceTexture);

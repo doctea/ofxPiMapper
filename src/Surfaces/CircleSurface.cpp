@@ -300,5 +300,18 @@ int CircleSurface::getType() {
 	return SurfaceType::CIRCLE_SURFACE;
 }
 
+
+BaseSurface * CircleSurface::clone(){
+	CircleSurface * s = new CircleSurface();
+	s->setVertices(getVertices());
+	s->setTexCoords(getTexCoords());
+	s->setPerspectiveWarping(getPerspectiveWarping());
+    BaseSource * src = getSource();
+    src->referenceCount++;
+	s->setSource(src);
+	return s;
+}
+
+
 }
 }
