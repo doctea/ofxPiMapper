@@ -460,6 +460,24 @@ void Application::scaleDown(){
 	}
 }
 
+void Application::flip(){
+	if(getSurfaceManager()->getSelectedSurface() != 0){
+		getCmdManager()->exec(
+		 new FlipSurfaceCmd(
+		  getSurfaceManager()->getSelectedSurface(),
+		  getSurfaceManager()));
+	}
+}
+
+/*void Application::mirror(){
+	if(getSurfaceManager()->getSelectedSurface() != 0){
+		getCmdManager()->exec(
+		 new MirrorSurfaceCmd(
+		  getSurfaceManager()->getSelectedSurface(),
+		  getSurfaceManager()));
+	}
+}*/
+
 void Application::duplicateSurface(){
 	if(getSurfaceManager()->getSelectedSurface() != 0){
 		getCmdManager()->exec(

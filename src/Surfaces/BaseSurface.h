@@ -32,6 +32,7 @@ class BaseSurface {
 		virtual std::vector<Vec3> getVertices() = 0;
         virtual std::vector<Vec2> getTexCoords() = 0;
 		virtual BaseSurface * clone() = 0;
+		virtual void flip();
 
 		void drawTexture(Vec3 position);
 		void setSource(BaseSource * newSource);

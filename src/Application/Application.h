@@ -22,6 +22,7 @@
 #include "MvLayerUpCmd.h"
 #include "MvLayerDnCmd.h"
 #include "DuplicateSurfaceCmd.h"
+#include "FlipSurfaceCmd.h"
 #include "FullscreenSurfaceCmd.h"
 #include "TogglePerspectiveCmd.h"
 #include "SetNextSourceCmd.h"
@@ -129,6 +130,7 @@ class Application {
 		void moveLayerDown();
 		void scaleUp();
 		void scaleDown();
+		void flip();
 		void duplicateSurface();
         void setFullscreenSurface();
 		void setNextSource();

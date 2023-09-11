@@ -186,6 +186,10 @@ void ProjectionMappingMode::onKeyPressed(Application * app, ofKeyEventArgs & arg
 		 toggleLayerPanel();
 		 break;
 
+	 case 'X':
+	 	app->flip();
+		break;
+
 	/*
 	 case 'n': // Set next preset
 		 app->getSurfaceManager()->setNextPreset();

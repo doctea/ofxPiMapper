@@ -165,5 +165,14 @@ ofRectangle & BaseSurface::getBoundingBox(){
 	return _boundingBox;
 }
 
+void BaseSurface::flip() {
+	ofRectangle& bounds = getBoundingBox();
+	for(unsigned int i = 0; i < mesh.getVertices().size(); ++i){
+		mesh.getVertices()[i].x -= (bounds.x + (bounds.width/2.0));
+		mesh.getVertices()[i].x *= -1.0;
+		mesh.getVertices()[i].x += (bounds.x + (bounds.width/2.0));
+	}
+}
+
 } // namespace piMapper
 } // namespace ofx
