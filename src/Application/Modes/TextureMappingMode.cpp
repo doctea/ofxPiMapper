@@ -70,6 +70,12 @@ void TextureMappingMode::draw(Application * app){
 	Gui::instance()->getTextureHighlightWidget().draw();
 	Gui::instance()->getTextureEditorWidget().draw();
 	ofPopMatrix();
+
+	// doctea hack for a full-screen mousepointer
+	ofSetColor(0xff);
+	ofDrawCircle(ofGetMouseX(), ofGetMouseY(), 5);
+	ofSetColor(0x00);
+	ofDrawCircle(ofGetMouseX(), ofGetMouseY(), 4);
 }
 
 void TextureMappingMode::onKeyPressed(Application * app, ofKeyEventArgs & args){

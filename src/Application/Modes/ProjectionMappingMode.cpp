@@ -47,6 +47,12 @@ void ProjectionMappingMode::draw(Application * app){
 	}
 	
 	Gui::instance()->getSurfaceHighlightWidget().draw();
+
+	// doctea hack for a full-screen mousepointer
+	ofSetColor(0xff);
+	ofDrawCircle(ofGetMouseX(), ofGetMouseY(), 5);
+	ofSetColor(0x00);
+	ofDrawCircle(ofGetMouseX(), ofGetMouseY(), 4);
 }
 
 void ProjectionMappingMode::toggleLayerPanel(){
