@@ -34,6 +34,10 @@ void ofApp::draw(){
 }
 
 void ofApp::keyPressed(int key){
+	if(key == OF_KEY_F11 || key == OF_KEY_ESC ){
+		ofToggleFullscreen();
+		ofShowCursor();
+	}
 	mapper.keyPressed(key);
 }
 
