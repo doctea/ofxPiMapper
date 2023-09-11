@@ -243,6 +243,8 @@ void GridWarpSurface::createGridMesh(){
 
 BaseSurface * GridWarpSurface::clone(){
 	GridWarpSurface * s = new GridWarpSurface();
+	s->setGridCols(getGridCols());
+	s->setGridRows(getGridRows());
 	s->setVertices(getVertices());
 	s->setTexCoords(getTexCoords());
     BaseSource * src = getSource();
