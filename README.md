@@ -1,3 +1,8 @@
+This is a fork by doctea, to re-add some stuff that i had in my old ofxPiMapper-legacy fork.
+
+- shader as FboSource support from mudumat: https://github.com/mudumat/ofxPiMapper (done)
+- **todo** switchable scenes/presets
+
 # ofxPiMapper
 
 [![Ubuntu Workflow Badge](https://github.com/kr15h/ofxPiMapper/workflows/linux/badge.svg)](https://github.com/kr15h/ofxPiMapper/actions?query=workflow%3Alinux)
