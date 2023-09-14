@@ -8,6 +8,12 @@
 #include "Sources/VideoSource.h"
 #include "Sources/CustomShader.h"
 
+#define DISPLAY_WIDTH 1024
+#define DISPLAY_HEIGHT 768
+
+#define TEXTURE_WIDTH 1024
+#define TEXTURE_HEIGHT 1024
+
 class ofApp : public ofBaseApp{
 public:
 	void setup();

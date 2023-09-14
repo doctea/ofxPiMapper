@@ -19,6 +19,7 @@ void FlipSurfaceCmd::exec(){
 void FlipSurfaceCmd::undo(){
 	ofLogNotice("FlipSurfaceCmd", "undo");
     _surface->flip();
+	Gui::instance()->getProjectionEditorWidget().updateJoints();
 }
 
 } // namespace piMapper

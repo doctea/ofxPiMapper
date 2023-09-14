@@ -133,13 +133,20 @@ bool SurfaceManager::loadXmlSettings(std::string fileName){
 		ofLogFatalError("SurfaceManager") << "Media server not set";
 		exit(EXIT_FAILURE);
 	}
+	ofLogNotice("SurfaceManager") << "before load()";
 	bool success = SettingsLoader::instance()->load(*this, *mediaServer, fileName);
+
+	ofLogNotice("SurfaceManager") << "after load()";
 
     for (int i=0; i<_presets.size(); i++){
         setPresetSourcesActiveState(i, false);
     }
 
+	ofLogNotice("SurfaceManager") << "after presets deactivate loop()";
+
     setPresetSourcesActiveState(_activePresetIndex, true);
+
+	ofLogNotice("SurfaceManager") << "after preset set active";
 	return success;
 }
 

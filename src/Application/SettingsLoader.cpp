@@ -67,7 +67,7 @@ bool SettingsLoader::load(
 					xmlSettings->pushTag("source");
 					sourceType = xmlSettings->getValue("source-type", "");
 					sourceName = xmlSettings->getValue("source-name", "");
-					
+
 					if(sourceName != "" && sourceName != "none" && sourceType != ""){
 
 						// Load source depending on type
@@ -130,18 +130,21 @@ bool SettingsLoader::load(
 				}
 		
 				if(type == SurfaceType::TRIANGLE_SURFACE){
+					ofLogNotice("loader") << "TRIANGLE_SURFACE";
 					BaseSurface * triangleSurface = getTriangleSurface(xmlSettings);
 					if(sourceName != "none" && source != 0){
 						triangleSurface->setSource(source);
 					}
 					surfaces->push_back(triangleSurface);
 				}else if(type == SurfaceType::QUAD_SURFACE){
+					ofLogNotice("loader") << "QUAD_SURFACE";
 					BaseSurface * quadSurface = getQuadSurface(xmlSettings);
 					if(sourceName != "none" && source != 0){
 						quadSurface->setSource(source);
 					}
 					surfaces->push_back(quadSurface);
 				}else if(type == SurfaceType::CIRCLE_SURFACE){
+					ofLogNotice("loader") << "CIRCLE_SURFACE";
 					QuadSurface * base = (QuadSurface*)getQuadSurface(xmlSettings);
 					CircleSurface * circleSurface = new CircleSurface(*base);
 					if(sourceName != "none" && source != 0){
@@ -149,12 +152,14 @@ bool SettingsLoader::load(
 					}
 					surfaces->push_back(circleSurface);
 				}else if(type == SurfaceType::GRID_WARP_SURFACE){
+					ofLogNotice("loader") << "GRID_WARP_SURFACE";
 					BaseSurface * gridWarpSurface = getGridWarpSurface(xmlSettings);
 					if(sourceName != "none" && source != 0){
 						gridWarpSurface->setSource(source);
 					}
 					surfaces->push_back(gridWarpSurface);
 				}else if(type == SurfaceType::HEXAGON_SURFACE){
+					ofLogNotice("loader") << "HEXAGON_SURFACE";
 					BaseSurface * hexagonSurface = getHexagonSurface(xmlSettings);
 					if(sourceName != "none" && source != 0){
 						hexagonSurface->setSource(source);
@@ -432,15 +437,19 @@ BaseSurface * SettingsLoader::getQuadSurface(ofxXmlSettings * xmlSettings){
 		xmlSettings->popTag(); // texCoords
 	}
 
+	ofLogNotice("loadquad") << "about to createSurface..";
 	// Create and add quad surface
 	BaseSurface * quadSurface =
 		SurfaceFactory::instance()->createSurface(
 			SurfaceType::QUAD_SURFACE);
+	ofLogNotice("loadquad") << "about to setVertices..";
 	quadSurface->setVertices(vertices);
+	ofLogNotice("loadquad") << "about to setTextCoords..";
 	quadSurface->setTexCoords(texCoords);
 
 	// Read properties
 	// Only perspective warping for now
+	ofLogNotice("loadquad") << "about to set properties..";
 	bool perspectiveWarping = false;
 	if(xmlSettings->tagExists("properties")){
 		xmlSettings->pushTag("properties");

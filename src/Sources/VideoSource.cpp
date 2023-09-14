@@ -94,6 +94,13 @@ void VideoSource::stop(){
 				}
 			}
 			_videoPlayer->update();
+			/*
+			if (_videoPlayer->isInitialized()) {
+				if (_videoPlayer->getPosition() >= 0.005f)
+					_videoPlayer->setPosition(0.0025f);
+					proof of concept of looping...
+			}				
+			*/
 		}
 	}
 #else
@@ -108,7 +115,7 @@ void VideoSource::stop(){
 
 void VideoSource::restart(){
 	#ifdef TARGET_RASPBERRY_PI
-		_omxPlayer->restartMovie();
+		_omxPlayer->restartMovie(); 
 	#else
 		_videoPlayer->setPosition(0);
 		_videoPlayer->play();

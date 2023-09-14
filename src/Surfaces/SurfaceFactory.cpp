@@ -51,27 +51,32 @@ TriangleSurface * SurfaceFactory::createTriangleSurface(){
 }
 
 QuadSurface * SurfaceFactory::createQuadSurface(){
+	ofLogNotice("createQuadSurface") << "start..";
 	std::vector<Vec3> vertices;
 	float margin = 50.0f;
+	ofLogNotice("createQuadSurface") << "pushing vertices..";
 	vertices.push_back(Vec3(margin, margin, 0.0f));
 	vertices.push_back(Vec3((float)ofGetWidth() - margin, margin, 0.0f));
 	vertices.push_back(Vec3((float)ofGetWidth() - margin, (float)ofGetHeight() - margin, 0.0f));
 	vertices.push_back(Vec3(margin, (float)ofGetHeight() - margin, 0.0f));
 
+	ofLogNotice("createQuadSurface") << "pushing texcoords..";
 	std::vector<Vec2> texCoords;
 	texCoords.push_back(Vec2(Vec2(0.0f, 0.0f)));
 	texCoords.push_back(Vec2(Vec2(1.0f, 0.0f)));
 	texCoords.push_back(Vec2(Vec2(1.0f, 1.0f)));
 	texCoords.push_back(Vec2(Vec2(0.0f, 1.0f)));
 	
+	ofLogNotice("createQuadSurface") << "new QuadSurface..";
 	QuadSurface * quadSurface = new QuadSurface();
 	quadSurface->setPerspectiveWarping(true);
 	
+	ofLogNotice("createQuadSurface") << "setting vertex + texcoord..";
 	for(int i = 0; i < 4; i++){
 		quadSurface->setVertex(i, vertices[i]);
 		quadSurface->setTexCoord(i, texCoords[i]);
 	}
-	
+	ofLogNotice("createQuadSurface") << "end..";
 	return quadSurface;
 }
 
