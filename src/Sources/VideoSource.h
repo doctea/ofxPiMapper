@@ -33,6 +33,7 @@ class VideoSource : public BaseSource {
 		void restart();
 		void pause();
 		void resume();
+		virtual void reset();
 
 	private:
 

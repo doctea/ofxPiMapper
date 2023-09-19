@@ -474,7 +474,7 @@ void SurfaceManager::setPresetSourcesActiveState(unsigned int presetIndex, bool 
 
 void SurfaceManager::setPreset(unsigned int i){
     cout << "CALLED IT" << endl;
-	if(_presets.size() <= 1){
+	if(_presets.size() < 1){
 		throw runtime_error("ofxPiMapper: No presets to set.");
 	}
 	

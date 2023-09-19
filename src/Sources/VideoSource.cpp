@@ -52,6 +52,14 @@ bool VideoSource::getLoop(){
 	return _loop;
 }
 
+void VideoSource::reset() {
+	if (_videoPlayer->getCurrentFrame()>0) {
+		//_videoPlayer->stop();
+		_videoPlayer->setFrame(0);
+		//_videoPlayer->play();
+	}
+}
+
 void VideoSource::clear(){
 	texture = 0;
 	

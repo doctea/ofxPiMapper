@@ -119,3 +119,5 @@ example/example\.xcodeproj/xcshareddata/xcschemes/
 cmake-build-debug/
 
 CMakeLists\.txt
+
+*.mp4
