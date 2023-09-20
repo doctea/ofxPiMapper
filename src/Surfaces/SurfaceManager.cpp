@@ -19,7 +19,8 @@ void SurfaceManager::draw(){
 	if(_activePresetIndex < 0){
 		return;
 	}
-	
+	ofEnableAlphaBlending();
+	ofSetColor(255, 255, 255, transparency());
 	_presets[_activePresetIndex]->draw();
 }
 
@@ -464,6 +465,17 @@ void SurfaceManager::setNextPreset(){
 	// TODO: Create command for this.
 }
 
+int SurfaceManager::transparency() {
+	uint64_t elapsed = ofGetElapsedTimeMillis();// preset_activated_at - ofGetElapsedTimeMillis();
+	float fade_time_millis = 1000.0f;
+	//float amt = elapsed / fade_time_millis;
+
+	float t = ofMap(elapsed, 0.0f, fade_time_millis, 0.0f, 255.0f, true);
+
+	printf("%5i: draw transparancy %i\n", elapsed, (int)t);
+	return t;
+}
+
 void SurfaceManager::setPresetSourcesActiveState(unsigned int presetIndex, bool state){
     // tell sources associated with current preset that they are not displayed any more
     // this is so that we can optionally update the buffers or not.
@@ -473,6 +485,8 @@ void SurfaceManager::setPresetSourcesActiveState(unsigned int presetIndex, bool 
 }
 
 void SurfaceManager::setPreset(unsigned int i){
+	//preset_activated_at = ofGetSystemTimeMillis();
+	ofResetElapsedTimeCounter();
     cout << "CALLED IT" << endl;
 	if(_presets.size() < 1){
 		throw runtime_error("ofxPiMapper: No presets to set.");
@@ -489,7 +503,6 @@ void SurfaceManager::setPreset(unsigned int i){
     _activePresetIndex = i;
     //let sources associated with NEW preset know that they are now being displayed
     setPresetSourcesActiveState(_activePresetIndex, true);
-
 
     //when preset it changed, call reset on all sources, if it's defined
     for (int i=0; i<_presets[_activePresetIndex]->getSurfaces().size(); i++){
