@@ -473,10 +473,8 @@ int SurfaceManager::transparency() {
 	uint64_t elapsed = ofGetElapsedTimeMillis();// preset_activated_at - ofGetElapsedTimeMillis();
 	float fade_time_millis = 1000.0f;
 	//float amt = elapsed / fade_time_millis;
-
 	float t = ofMap(elapsed, 0.0f, fade_time_millis, 0.0f, (float)transparency_value, true);
-
-	printf("%5i: draw transparancy %i\n", elapsed, (int)t);
+	//printf("%5i: draw transparency %i\n", elapsed, (int)t);
 	return t;
 }
 

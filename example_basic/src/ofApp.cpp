@@ -1,5 +1,7 @@
 #include "ofApp.h"
 
+#include "midi.h"
+
 void ofApp::setup(){
 	ofBackground(0);
 
@@ -94,7 +96,24 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
         // add the latest message to the message queue
         midiMessages.push_back(msg);
 
-		mapper._application.getSurfaceManager()->setTransparency((byte)(msg.value * 2));
+		if (msg.status==MIDI_CONTROL_CHANGE) {
+			if (msg.control==APCMINI_CC_SLIDER_1)
+				mapper._application.getSurfaceManager()->setTransparency((byte)(msg.value * 2));
+		} else if (msg.status==MIDI_NOTE_ON) {
+			if (msg.pitch>=0x30 && msg.pitch<=0x3F) {
+				int x = msg.pitch - 0x30;
+				int row = 1 - (x / 8);
+				int column = x % 8;
+				int f_key = (row*8) + column;
+				//int f_key = msg.pitch; //args.key - OF_KEY_F1;
+				printf("Switching to preset scene %i/%i\n", f_key+1, mapper._application.getSurfaceManager()->getNumPresets());
+				while (mapper._application.getSurfaceManager()->getNumPresets() <= f_key) {
+					printf("num presets is currently %i, so creating new?", mapper._application.getSurfaceManager()->getNumPresets());
+					mapper._application.getSurfaceManager()->createPreset();
+				}
+				mapper._application.setPreset(f_key);
+			}
+		}
 
         // remove any old messages if we have too many
         while(midiMessages.size() > maxMessages) {
