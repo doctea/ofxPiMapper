@@ -8,18 +8,21 @@
 #include "Sources/VideoSource.h"
 #include "Sources/CustomShader.h"
 
+#include "ofxMidi.h"
+
 #define DISPLAY_WIDTH 1024
 #define DISPLAY_HEIGHT 768
 
 #define TEXTURE_WIDTH 1024
 #define TEXTURE_HEIGHT 1024
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp, public ofxMidiListener{
 public:
 	void setup();
 	void update();
 	void draw();
-
+    void exit();
+	
 	// We need to forward key and mouse events to ofxPiMapper.
 	// By not doing it we have the opportunity to use ofxPiMapper
 	// witout the interface.
@@ -39,4 +42,10 @@ public:
     CustomSource *customSource;
     CrossSource *crossSource;
     CustomShader *customShader;
+
+	void newMidiMessage(ofxMidiMessage& eventArgs);
+
+	ofxMidiIn midiIn;
+	std::vector<ofxMidiMessage> midiMessages;
+	std::size_t maxMessages = 10; //< max number of messages to keep track of	
 };

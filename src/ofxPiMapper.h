@@ -99,6 +99,6 @@ class ofxPiMapper {
 		void pause();
 		void resume();
 
-	private:
+	//private:
 		ofx::piMapper::Application _application;
 };

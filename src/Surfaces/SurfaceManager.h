@@ -82,6 +82,9 @@ class SurfaceManager {
 
 		uint64_t preset_activated_at = 0;
 		int transparency();
+		void setTransparency(byte transparency);
+
+		byte transparency_value = (byte)255;
 	
 	private:
 		BaseSurface * selectedSurface;
