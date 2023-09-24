@@ -46,6 +46,7 @@ public:
 	void newMidiMessage(ofxMidiMessage& eventArgs);
 
 	ofxMidiIn midiIn;
+	ofxMidiOut midiOut;
 	std::vector<ofxMidiMessage> midiMessages;
 	std::size_t maxMessages = 10; //< max number of messages to keep track of	
 };
