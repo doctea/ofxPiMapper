@@ -5,6 +5,11 @@
 void ofApp::setup(){
 	ofBackground(0);
 
+	// Enable or disable audio for video sources globally
+	// Set this to false to save resources on the Raspberry Pi
+	ofx::piMapper::VideoSource::enableAudio = false;
+	ofx::piMapper::VideoSource::useHDMIForAudio = false;
+
 	// print input ports to console
 	midiIn.listInPorts();
 
@@ -45,6 +50,8 @@ void ofApp::setup(){
 
 	mapper.setup();
 
+	apc_display = new APCDisplayManager(&mapper, &midiIn, &midiOut);
+
 	//ofSetFullscreen(Settings::instance()->getFullscreen());
 	//ofSetEscapeQuitsApp(false);
     //ofSetLogLevel(OF_LOG_VERBOSE);
@@ -68,6 +75,7 @@ void ofApp::keyPressed(int key){
 		ofShowCursor();
 	}
 	mapper.keyPressed(key);
+	apc_display->update();
 }
 
 void ofApp::keyReleased(int key){
@@ -94,21 +102,6 @@ void ofApp::exit() {
         midiIn.removeListener(this);
 }
 
-int get_apcmini_note_for_preset(int i) {
-	int row = 1 - (i/8);
-	int column = i % 8;
-	int note = 0x30 + (row*8) + column;
-	ofLogNotice("get_apcmini_note_for_preset(") << i << ") returning note " << note;
-	return note;
-}
-int get_preset_for_apcmini_note(int i) {
-	int x = i - 0x30;
-	int row = 1 - (x / 8);
-	int column = x % 8;
-	int f_key = (row*8) + column;
-	return f_key;
-}
-
 //--------------------------------------------------------------
 void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 
@@ -120,17 +113,16 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 				mapper._application.getSurfaceManager()->setTransparency((byte)(msg.value * 2));
 		} else if (msg.status==MIDI_NOTE_ON) {
 			if (msg.pitch>=0x30 && msg.pitch<=0x3F) {
-				int f_key = get_preset_for_apcmini_note(msg.pitch);
+				u_int f_key = apc_display->get_preset_for_apcmini_note(msg.pitch);
 
 				//int f_key = msg.pitch; //args.key - OF_KEY_F1;
 				printf("Switching to preset scene %i/%i\n", f_key+1, mapper._application.getSurfaceManager()->getNumPresets());
-				midiOut.sendNoteOn(1, get_apcmini_note_for_preset(mapper._application.getSurfaceManager()->getActivePresetIndex()), APCMINI_OFF);
 				while (mapper._application.getSurfaceManager()->getNumPresets() <= f_key) {
 					printf("num presets is currently %i, so creating new?", mapper._application.getSurfaceManager()->getNumPresets());
 					mapper._application.getSurfaceManager()->createPreset();
 				}
 				mapper._application.setPreset(f_key);
-				midiOut.sendNoteOn(1, msg.pitch, APCMINI_GREEN);
+				apc_display->update();
 			}
 		}
 

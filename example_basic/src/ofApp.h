@@ -10,6 +10,8 @@
 
 #include "ofxMidi.h"
 
+#include "midi.h"
+
 #define DISPLAY_WIDTH 1024
 #define DISPLAY_HEIGHT 768
 
@@ -44,6 +46,8 @@ public:
     CustomShader *customShader;
 
 	void newMidiMessage(ofxMidiMessage& eventArgs);
+
+	APCDisplayManager *apc_display = nullptr;
 
 	ofxMidiIn midiIn;
 	ofxMidiOut midiOut;
