@@ -31,4 +31,6 @@ int main(int argc, char * argv[]){
     //ofCreateWindow(settings);
 
 	ofRunApp(new ofApp());
+	ofRunMainLoop();
+
 }

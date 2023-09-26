@@ -51,6 +51,14 @@ class APCDisplayManager {
         return f_key;
     }
 
+    int get_audio_slot_for_apcmini_note(int i) {
+        int x = i;// - 0x30;
+        int row = 1 - (x / 8);
+        int column = x % 8;
+        int f_key = (row*8) + column;
+        return f_key;
+    }
+
     void sendNoteOn(int channel, int pitch, int velocity, bool force = false) {
         if (force || last_note_values[pitch] != velocity) {
             midiOut->sendNoteOn(channel, pitch, velocity);

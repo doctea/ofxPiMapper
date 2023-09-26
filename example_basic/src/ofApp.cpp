@@ -1,5 +1,4 @@
 #include "ofApp.h"
-
 #include "midi.h"
 
 void ofApp::setup(){
@@ -14,26 +13,22 @@ void ofApp::setup(){
 	midiIn.listInPorts();
 
 	// open port by number (you may need to change this)
-	while (!midiIn.openPort("APC MINI:APC MINI MIDI 1 24:0")) {
+	while (!midiIn.openPort(1)) { //}"APC MINI:APC MINI MIDI 1 24:0")) {
 		ofLogNotice("Waiting to detect APC MINI for input...");
 		midiIn.listInPorts();
 		sleep(1);
 	}
-	while (!midiOut.openPort("APC MINI:APC MINI MIDI 1 24:0")) {
+	while (!midiOut.openPort(1)) { //}"APC MINI:APC MINI MIDI 1 24:0")) {
 		ofLogNotice("Waiting to detect APC MINI for output...");
 		midiOut.listOutPorts();
 		sleep(1);
 	}
-	//midiIn.openPort("IAC Pure Data In");  // by name
-	//midiIn.openVirtualPort("ofxMidiIn Input"); // open a virtual port
 
 	// don't ignore sysex, timing, & active sense messages,
 	// these are ignored by default
 	midiIn.ignoreTypes(false, false, false);
-
 	// add ofApp as a listener
 	midiIn.addListener(this);
-
 	// print received messages to the console
 	midiIn.setVerbose(true);
 
@@ -57,12 +52,19 @@ void ofApp::setup(){
     //ofSetLogLevel(OF_LOG_VERBOSE);
 
 	//#ifdef TARGET_RASPBERRY_PI
-	  	ofSetFullscreen(true);
+	  	//ofSetFullscreen(true);
   	//#endif
 }
 
 void ofApp::update(){
 	mapper.update();
+	// update the sound playing system:
+	//ofSoundUpdate();
+
+	//audio_player.play();
+	//ofLogNotice("update");
+	// update the sound playing system:
+	ofSoundUpdate();
 }
 
 void ofApp::draw(){
@@ -111,6 +113,8 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 		if (msg.status==MIDI_CONTROL_CHANGE) {
 			if (msg.control==APCMINI_CC_SLIDER_1)
 				mapper._application.getSurfaceManager()->setTransparency((byte)(msg.value * 2));
+			else if (msg.control==APCMINI_CC_SLIDER_8)
+				audio_player.setVolume((float)msg.value / 127.0);
 		} else if (msg.status==MIDI_NOTE_ON) {
 			if (msg.pitch>=0x30 && msg.pitch<=0x3F) {
 				u_int f_key = apc_display->get_preset_for_apcmini_note(msg.pitch);
@@ -123,6 +127,33 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 				}
 				mapper._application.setPreset(f_key);
 				apc_display->update();
+			} else if (msg.pitch>=0x00 && msg.pitch <=0x0F) {
+				// trigger audio clip x
+				int clip = apc_display->get_audio_slot_for_apcmini_note(msg.pitch);
+				ofLogNotice("Triggering clip ") << clip;
+				static int currently_selected = -1;
+				if (currently_selected==clip) {
+					if (audio_player.isPlaying()) {
+						ofLogNotice("stopping.");
+						audio_player.stop();
+					} else {
+						ofLogNotice("playing.");
+						audio_player.play();
+					}
+				} else {
+					audio_player.stop();
+					audio_player.unload();
+					ofLogNotice("loading ") << audio_filenames[clip%audio_filenames.size()] << " and playing";
+					try {
+						audio_player.loadSound(audio_filenames[clip%audio_filenames.size()], false);
+						audio_player.setVolume(1.0f);
+						audio_player.play();
+					} catch (...) {
+						ofLogError("Exception occurred");
+					}
+				}
+				currently_selected = clip;
+				ofLogNotice("====== processed clip message!");
 			}
 		}
 

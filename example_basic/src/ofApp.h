@@ -10,6 +10,8 @@
 
 #include "ofxMidi.h"
 
+#include <string>
+
 #include "midi.h"
 
 #define DISPLAY_WIDTH 1024
@@ -53,4 +55,10 @@ public:
 	ofxMidiOut midiOut;
 	std::vector<ofxMidiMessage> midiMessages;
 	std::size_t maxMessages = 10; //< max number of messages to keep track of	
+
+	ofSoundPlayer audio_player;
+	std::vector<string> audio_filenames = {
+		"sources/audio/arts etc 60s/part 1/Samples/01 - Strauss (R)- Also Sprach Zarathustra (2001 A Space Odyssey).wav",
+		"sources/audio/arts etc 60s/part 1/Samples/02. Kraftwerk - Spacelab (2009 Remaster).wav"
+	};
 };
