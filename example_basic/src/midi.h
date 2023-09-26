@@ -20,6 +20,7 @@
 #define APCMINI_YELLOW_BLINK  6
 
 #include "ofxMidi.h"
+#include "ofSoundPlayer.h"
 
 class APCDisplayManager {
     public:
@@ -29,11 +30,15 @@ class APCDisplayManager {
 	ofxMidiIn *midiIn;
 	ofxMidiOut *midiOut;
     ofxPiMapper *mapper;
+    ofSoundPlayer *player;
 
-    APCDisplayManager(ofxPiMapper *mapper, ofxMidiIn *midiIn, ofxMidiOut *midiOut) {
+	int currently_selected_audio_clip = -1;
+
+    APCDisplayManager(ofxPiMapper *mapper, ofxMidiIn *midiIn, ofxMidiOut *midiOut, ofSoundPlayer *player) {
         this->midiIn = midiIn;
         this->midiOut = midiOut;
         this->mapper = mapper;
+        this->player = player;
     }
 
     int get_apcmini_note_for_preset(int i) {
@@ -51,6 +56,13 @@ class APCDisplayManager {
         return f_key;
     }
 
+    int get_apcmini_note_for_audio_slot(int i) {
+        int row = 1 - (i/8);
+        int column = i % 8;
+        int note = 0x00 + (row*8) + column;
+        ofLogNotice("get_apcmini_note_for_audio_slot(") << i << ") returning note " << note;
+        return note;
+    }
     int get_audio_slot_for_apcmini_note(int i) {
         int x = i;// - 0x30;
         int row = 1 - (x / 8);
@@ -70,9 +82,17 @@ class APCDisplayManager {
         this->sendNoteOn(1, get_apcmini_note_for_preset(preset), value);
     }
 
+
+    void indicateAudio(int clip, int value) {
+        this->sendNoteOn(1, get_apcmini_note_for_audio_slot(clip), value);
+    }
+
     void update() {
         for (int i = 0 ; i < 16 ; i++) {
             indicatePreset(i, mapper->_application.getSurfaceManager()->getActivePresetIndex()==i ? APCMINI_GREEN : APCMINI_OFF);
+        }
+        for (int i = 0 ; i < 16 ; i++) {
+            indicateAudio(i, currently_selected_audio_clip==i && player->isPlaying() ? APCMINI_GREEN_BLINK : APCMINI_OFF );
         }
     }
 };

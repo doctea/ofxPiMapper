@@ -45,7 +45,7 @@ void ofApp::setup(){
 
 	mapper.setup();
 
-	apc_display = new APCDisplayManager(&mapper, &midiIn, &midiOut);
+	apc_display = new APCDisplayManager(&mapper, &midiIn, &midiOut, &audio_player);
 
 	//ofSetFullscreen(Settings::instance()->getFullscreen());
 	//ofSetEscapeQuitsApp(false);
@@ -68,6 +68,8 @@ void ofApp::update(){
 }
 
 void ofApp::draw(){
+	if (ofGetUnixTimeMillis()%1000==0)
+		apc_display->update();
 	mapper.draw();
 }
 
@@ -131,8 +133,7 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 				// trigger audio clip x
 				int clip = apc_display->get_audio_slot_for_apcmini_note(msg.pitch);
 				ofLogNotice("Triggering clip ") << clip;
-				static int currently_selected = -1;
-				if (currently_selected==clip) {
+				if (apc_display->currently_selected_audio_clip==clip) {
 					if (audio_player.isPlaying()) {
 						ofLogNotice("stopping.");
 						audio_player.stop();
@@ -152,7 +153,8 @@ void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 						ofLogError("Exception occurred");
 					}
 				}
-				currently_selected = clip;
+				apc_display->currently_selected_audio_clip = clip;
+				apc_display->update();
 				ofLogNotice("====== processed clip message!");
 			}
 		}
