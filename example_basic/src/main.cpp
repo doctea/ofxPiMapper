@@ -17,8 +17,8 @@ int main(int argc, char * argv[]){
 		ofSetupOpenGL(DISPLAY_WIDTH, DISPLAY_HEIGHT, OF_WINDOW);
 	}
 	
-	int w = 800;
-	int h = 450;
+	int w = 1024;
+	int h = 768;
 	ofWindowMode mode = OF_WINDOW;
 
 	// Loglever festlegen

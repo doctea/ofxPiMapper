@@ -150,14 +150,23 @@ void Application::onKeyPressed(ofKeyEventArgs & args){
 
 	 case OF_KEY_F1...OF_KEY_F8:
 	 	{
+			//printf("got key %c, keycode=%i, scancode=%i\n", args.key, args.keycode, args.scancode);
 			int f_key = args.key - OF_KEY_F1;
-			printf("Switching to preset scene %i/%i\n", f_key+1, getSurfaceManager()->getNumPresets());
-			while (getSurfaceManager()->getNumPresets() <= f_key) {
-				printf("num presets is currently %i, so creating new?", getSurfaceManager()->getNumPresets());
-				getSurfaceManager()->createPreset();
+			if (!_shiftKeyDown) {
+				printf("Switching to preset scene %i/%i\n", f_key+1, getSurfaceManager()->getNumPresets());
+				while (getSurfaceManager()->getNumPresets() <= f_key) {
+					printf("num presets is currently %i, so creating new?", getSurfaceManager()->getNumPresets());
+					getSurfaceManager()->createPreset();
+				}
+				setPreset(f_key);
+				break;
+			} else {
+				if (f_key!=getSurfaceManager()->getActivePresetIndex()) {
+					printf("Swapping presets %i and %i\n", f_key, getSurfaceManager()->getActivePresetIndex());
+					getSurfaceManager()->swapPreset(getSurfaceManager()->getActivePresetIndex(), f_key);
+				}
+				break;
 			}
-			setPreset(f_key);
-			break;
 		}
 
 	 default:

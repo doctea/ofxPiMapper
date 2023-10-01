@@ -152,6 +152,8 @@ class Application {
 
 		void setPreset(unsigned int i);
 		void setNextPreset();
+		void swapPreset(int source_preset, int target_preset);
+
 
 		// System commands
 		void reboot();

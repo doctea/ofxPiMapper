@@ -73,7 +73,8 @@ class SurfaceManager {
 		SurfaceStack * getActivePreset();
 		SurfaceStack * createPreset();
 		SurfaceStack * getPresetAt(unsigned int i);
-	
+		void swapPreset(int source, int target);
+
 		void setNextPreset();
 		void setPreset(unsigned int i);
 		void cloneActivePreset();

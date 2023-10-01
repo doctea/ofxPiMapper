@@ -4,6 +4,10 @@
 void ofApp::setup(){
 	ofBackground(0);
 
+	audio_player.load("data/sounds/synth.wav");
+	audio_player.play();
+	audio_player.unload();
+
 	// Enable or disable audio for video sources globally
 	// Set this to false to save resources on the Raspberry Pi
 	ofx::piMapper::VideoSource::enableAudio = false;
@@ -65,11 +69,12 @@ void ofApp::update(){
 	//ofLogNotice("update");
 	// update the sound playing system:
 	ofSoundUpdate();
+
+	if (ofGetUnixTimeMillis()%1000==0)
+		apc_display->update();
 }
 
 void ofApp::draw(){
-	if (ofGetUnixTimeMillis()%1000==0)
-		apc_display->update();
 	mapper.draw();
 }
 

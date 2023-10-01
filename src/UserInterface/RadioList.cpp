@@ -35,6 +35,7 @@ void RadioList::setup(std::vector<std::string> & labels, std::vector<std::string
 		toggle->setup(false);
 		toggle->setName(labels[i]);
 		toggle->addListener(this, &RadioList::onToggleClicked);
+
 		guiGroup.add(toggle);
 		#if OF_VERSION_MAJOR == 0 && (OF_VERSION_MINOR >= 8 && OF_VERSION_PATCH >= 2) || (OF_VERSION_MINOR >= 9 && OF_VERSION_PATCH >= 0)
 			toggle->registerMouseEvents();
@@ -47,6 +48,8 @@ void RadioList::setup(std::string title, std::vector<std::string> & labels, std:
 	// Store title for later use
 	storedTitle = title;
 	guiGroup.setName(title);
+	guiGroup.setWidthElements(220.0f);	// https://github.com/kr15h/ofxPiMapper/issues/190
+
 	setup(labels, values);
 }
 

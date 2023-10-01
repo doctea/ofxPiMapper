@@ -444,6 +444,18 @@ SurfaceStack * SurfaceManager::createPreset(){
 	// TODO: Create command for this. And what not.
 }
 
+
+void SurfaceManager::swapPreset(int source_preset, int target_preset) {
+	// swap..
+	while (getNumPresets() <= target_preset) {
+		printf("num presets is currently %i, so creating new?", getNumPresets());
+		createPreset();
+	}
+	iter_swap(_presets.begin() + source_preset, _presets.begin() + target_preset);
+	setPreset(target_preset);
+}
+
+
 SurfaceStack * SurfaceManager::getPresetAt(unsigned int i){
 	if(i >= _presets.size()){
 		throw runtime_error("SurfaceManager::getPresetAt index out of bounds.");
