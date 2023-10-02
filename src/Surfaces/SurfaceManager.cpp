@@ -510,9 +510,11 @@ void SurfaceManager::setPreset(unsigned int i){
 		throw runtime_error("ofxPiMapper: Preset index out of bounds.");
 	}
 	
+	cout << "about to setPresetSourcesActiveState" << endl;
     //let sources associated with all preset know that they are not being displayed any more
     setPresetSourcesActiveState(_activePresetIndex, false);
 
+	cout << "about to setPresetSourcesActiveState again" << endl;
     //change preset
     _activePresetIndex = i;
     //let sources associated with NEW preset know that they are now being displayed
@@ -520,22 +522,28 @@ void SurfaceManager::setPreset(unsigned int i){
 
     //when preset it changed, call reset on all sources, if it's defined
     for (int i=0; i<_presets[_activePresetIndex]->getSurfaces().size(); i++){
-
+		cout << "about to check if source is FBO" << endl;
         //if source is of type FBO then cast it from BaseSource to FboSource and call the beginFbo function
-        if (_presets[_activePresetIndex]->getSurfaces()[i]->getSource()->getType() == SourceType::SOURCE_TYPE_FBO){
+        /*if (_presets[_activePresetIndex]->getSurfaces()[i]->getSource()->getType() == SourceType::SOURCE_TYPE_FBO){
             FboSource *fboSource;
+			cout << "about to do getSource" << endl;
             fboSource = (FboSource*)_presets[_activePresetIndex]->getSurfaces()[i]->getSource();
+			cout << "about to do beginFbo" << endl;
             fboSource->beginFbo();
+			cout << "loop end" << endl;
         }
+		cout << "checked if source is FBO" << endl;*/
 
         _presets[_activePresetIndex]->getSurfaces()[i]->getSource()->reset();
 
+		/*cout << "about to check if source is FBO again" << endl;
         //if source is of type FBO then cast it from BaseSource to FboSource and call the endFbo function
         if (_presets[_activePresetIndex]->getSurfaces()[i]->getSource()->getType() == SourceType::SOURCE_TYPE_FBO){
             FboSource *fboSource;
             fboSource = (FboSource*)_presets[_activePresetIndex]->getSurfaces()[i]->getSource();
             fboSource->endFbo();
         }
+		cout << "checked if source is again" << endl;*/
     }
 }
 
