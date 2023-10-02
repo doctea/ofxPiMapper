@@ -61,4 +61,7 @@ public:
 		"sources/audio/arts etc 60s/part 1/Samples/01 - Strauss (R)- Also Sprach Zarathustra (2001 A Space Odyssey).wav",
 		"sources/audio/arts etc 60s/part 1/Samples/02. Kraftwerk - Spacelab (2009 Remaster).wav"
 	};
+
+	ofMutex midiMutex; //< MIDI message access mutex 
+
 };

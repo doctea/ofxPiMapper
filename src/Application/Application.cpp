@@ -149,31 +149,35 @@ void Application::onKeyPressed(ofKeyEventArgs & args){
 		break;
 
 	 case OF_KEY_F1...OF_KEY_F8:
-	 	{
-			//printf("got key %c, keycode=%i, scancode=%i\n", args.key, args.keycode, args.scancode);
-			int f_key = args.key - OF_KEY_F1;
-			if (!_shiftKeyDown) {
-				printf("Switching to preset scene %i/%i\n", f_key+1, getSurfaceManager()->getNumPresets());
-				while (getSurfaceManager()->getNumPresets() <= f_key) {
-					printf("num presets is currently %i, so creating new?", getSurfaceManager()->getNumPresets());
-					getSurfaceManager()->createPreset();
-				}
-				setPreset(f_key);
-				break;
-			} else {
-				if (f_key!=getSurfaceManager()->getActivePresetIndex()) {
-					printf("Swapping presets %i and %i\n", f_key, getSurfaceManager()->getActivePresetIndex());
-					getSurfaceManager()->swapPreset(getSurfaceManager()->getActivePresetIndex(), f_key);
-				}
-				break;
-			}
-		}
+	 	switchPreset(args.key - OF_KEY_F1, _shiftKeyDown);
+		break;
 
 	 default:
 		 // All the other keypresses are handled by the application state onKeyPressed
 		 printf("got key %c, keycode=%i, scancode=%i\n", args.key, args.keycode, args.scancode);
 		 _state->onKeyPressed(this, args);
 		 break;
+	}
+}
+
+void Application::switchPreset(int scene_number, bool shifted) {
+	unsigned int f_key = scene_number;
+	
+	while (getSurfaceManager()->getNumPresets() <= f_key) {
+		printf("num presets is currently %i, so creating new?", getSurfaceManager()->getNumPresets());
+		getSurfaceManager()->createPreset();
+	}
+
+	if (!shifted) {
+		printf("Switching to preset scene %i/%i\n", f_key+1, getSurfaceManager()->getNumPresets());
+		//setPreset(f_key);
+		//getSurfaceManager()->setPreset(f_key);
+		getCmdManager()->exec(new SetPresetCmd(this, f_key));
+	} else {
+		if (f_key!=getSurfaceManager()->getActivePresetIndex()) {
+			printf("Swapping presets %i and %i\n", f_key, getSurfaceManager()->getActivePresetIndex());
+			getSurfaceManager()->swapPreset(getSurfaceManager()->getActivePresetIndex(), f_key);
+		}
 	}
 }
 

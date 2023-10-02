@@ -19,6 +19,28 @@
 #define APCMINI_YELLOW        5
 #define APCMINI_YELLOW_BLINK  6
 
+#define APCMINI_NUM_ROWS      8
+#define APCMINI_DISPLAY_WIDTH 8
+
+#define APCMINI_BUTTON_CLIP_STOP 82
+#define APCMINI_BUTTON_SOLO      83
+#define APCMINI_BUTTON_REC_ARM   84
+#define APCMINI_BUTTON_MUTE      85
+#define APCMINI_BUTTON_SELECT    86
+#define APCMINI_BUTTON_UNLABELED_1    87
+#define APCMINI_BUTTON_UNLABELED_2    88
+#define APCMINI_BUTTON_STOP_ALL_CLIPS 89
+#define APCMINI_BUTTON_SHIFT     98
+#define APCMINI_BUTTON_UP        64
+#define APCMINI_BUTTON_DOWN      65
+#define APCMINI_BUTTON_LEFT      66
+#define APCMINI_BUTTON_RIGHT     67
+#define APCMINI_BUTTON_VOLUME    68
+#define APCMINI_BUTTON_PAN       69
+#define APCMINI_BUTTON_SEND      70
+#define APCMINI_BUTTON_DEVICE    71
+
+
 #include "ofxMidi.h"
 #include "ofSoundPlayer.h"
 
@@ -45,7 +67,7 @@ class APCDisplayManager {
         int row = 1 - (i/8);
         int column = i % 8;
         int note = 0x30 + (row*8) + column;
-        ofLogNotice("get_apcmini_note_for_preset(") << i << ") returning note " << note;
+        //ofLogNotice("get_apcmini_note_for_preset(") << i << ") returning note " << note;
         return note;
     }
     int get_preset_for_apcmini_note(int i) {
@@ -60,7 +82,7 @@ class APCDisplayManager {
         int row = 1 - (i/8);
         int column = i % 8;
         int note = 0x00 + (row*8) + column;
-        ofLogNotice("get_apcmini_note_for_audio_slot(") << i << ") returning note " << note;
+        //ofLogNotice("get_apcmini_note_for_audio_slot(") << i << ") returning note " << note;
         return note;
     }
     int get_audio_slot_for_apcmini_note(int i) {

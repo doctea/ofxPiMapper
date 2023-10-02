@@ -61,7 +61,9 @@ void ofApp::setup(){
 }
 
 void ofApp::update(){
+	midiMutex.lock();
 	mapper.update();
+	midiMutex.unlock();
 	// update the sound playing system:
 	//ofSoundUpdate();
 
@@ -75,7 +77,9 @@ void ofApp::update(){
 }
 
 void ofApp::draw(){
+	midiMutex.lock();
 	mapper.draw();
+	midiMutex.unlock();
 }
 
 void ofApp::keyPressed(int key){
@@ -114,58 +118,59 @@ void ofApp::exit() {
 //--------------------------------------------------------------
 void ofApp::newMidiMessage(ofxMidiMessage& msg) {
 
-        // add the latest message to the message queue
-        midiMessages.push_back(msg);
+	static bool _shift_is_held = false;
+	midiMutex.lock();
+	// add the latest message to the message queue
+	midiMessages.push_back(msg);
 
-		if (msg.status==MIDI_CONTROL_CHANGE) {
-			if (msg.control==APCMINI_CC_SLIDER_1)
-				mapper._application.getSurfaceManager()->setTransparency((byte)(msg.value * 2));
-			else if (msg.control==APCMINI_CC_SLIDER_8)
-				audio_player.setVolume((float)msg.value / 127.0);
-		} else if (msg.status==MIDI_NOTE_ON) {
-			if (msg.pitch>=0x30 && msg.pitch<=0x3F) {
-				u_int f_key = apc_display->get_preset_for_apcmini_note(msg.pitch);
-
-				//int f_key = msg.pitch; //args.key - OF_KEY_F1;
-				printf("Switching to preset scene %i/%i\n", f_key+1, mapper._application.getSurfaceManager()->getNumPresets());
-				while (mapper._application.getSurfaceManager()->getNumPresets() <= f_key) {
-					printf("num presets is currently %i, so creating new?", mapper._application.getSurfaceManager()->getNumPresets());
-					mapper._application.getSurfaceManager()->createPreset();
-				}
-				mapper._application.setPreset(f_key);
-				apc_display->update();
-			} else if (msg.pitch>=0x00 && msg.pitch <=0x0F) {
-				// trigger audio clip x
-				int clip = apc_display->get_audio_slot_for_apcmini_note(msg.pitch);
-				ofLogNotice("Triggering clip ") << clip;
-				if (apc_display->currently_selected_audio_clip==clip) {
-					if (audio_player.isPlaying()) {
-						ofLogNotice("stopping.");
-						audio_player.stop();
-					} else {
-						ofLogNotice("playing.");
-						audio_player.play();
-					}
-				} else {
+	if (msg.status==MIDI_CONTROL_CHANGE) {
+		if (msg.control==APCMINI_CC_SLIDER_1)
+			mapper._application.getSurfaceManager()->setTransparency((byte)(msg.value * 2));
+		else if (msg.control==APCMINI_CC_SLIDER_8)
+			audio_player.setVolume((float)msg.value / 127.0);
+	} else if (msg.pitch==APCMINI_BUTTON_SHIFT && (msg.status==MIDI_NOTE_ON || msg.status==MIDI_NOTE_OFF)) {
+		_shift_is_held = msg.status==MIDI_NOTE_ON;
+	} else if (msg.status==MIDI_NOTE_ON) {
+		if (msg.pitch>=0x30 && msg.pitch<=0x3F) {
+			u_int f_key = apc_display->get_preset_for_apcmini_note(msg.pitch);
+			mapper._application.switchPreset(f_key, _shift_is_held);
+			//mapper.setPreset(f_key);
+			//mapper.keyPressed(OF_KEY_F1 + f_key);
+			apc_display->update();
+		} else if (msg.pitch>=0x00 && msg.pitch <=0x0F) {
+			// trigger audio clip x
+			int clip = apc_display->get_audio_slot_for_apcmini_note(msg.pitch);
+			ofLogNotice("Triggering clip ") << clip;
+			if (apc_display->currently_selected_audio_clip==clip) {
+				if (audio_player.isPlaying()) {
+					ofLogNotice("stopping.");
 					audio_player.stop();
-					audio_player.unload();
-					ofLogNotice("loading ") << audio_filenames[clip%audio_filenames.size()] << " and playing";
-					try {
-						audio_player.loadSound(audio_filenames[clip%audio_filenames.size()], false);
-						audio_player.setVolume(1.0f);
-						audio_player.play();
-					} catch (...) {
-						ofLogError("Exception occurred");
-					}
+				} else {
+					ofLogNotice("playing.");
+					audio_player.play();
 				}
-				apc_display->currently_selected_audio_clip = clip;
-				apc_display->update();
-				ofLogNotice("====== processed clip message!");
+			} else {
+				audio_player.stop();
+				audio_player.unload();
+				ofLogNotice("loading ") << audio_filenames[clip%audio_filenames.size()] << " and playing";
+				try {
+					audio_player.loadSound(audio_filenames[clip%audio_filenames.size()], false);
+					audio_player.setVolume(1.0f);
+					audio_player.play();
+				} catch (...) {
+					ofLogError("Exception occurred");
+				}
 			}
+			apc_display->currently_selected_audio_clip = clip;
+			apc_display->update();
+			ofLogNotice("====== processed clip message!");
 		}
+	}
 
-        // remove any old messages if we have too many
-        while(midiMessages.size() > maxMessages) {
-                midiMessages.erase(midiMessages.begin());
-        }
+	// remove any old messages if we have too many
+	while(midiMessages.size() > maxMessages) {
+			midiMessages.erase(midiMessages.begin());
+	}
+
+	midiMutex.unlock();
 }

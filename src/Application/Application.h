@@ -153,6 +153,7 @@ class Application {
 		void setPreset(unsigned int i);
 		void setNextPreset();
 		void swapPreset(int source_preset, int target_preset);
+		void switchPreset(int preset, bool shifted);
 
 
 		// System commands
