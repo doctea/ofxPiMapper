@@ -44,6 +44,13 @@
 #include "ofxMidi.h"
 #include "ofSoundPlayer.h"
 
+#include <string>
+
+extern std::vector<string> audio_filenames;
+#define NUM_AUDIO_CLIPS (audio_filenames.size())
+#define NUM_PRESETS 16
+#define FIRST_PRESET_NOTE (0x30)
+
 class APCDisplayManager {
     public:
 
@@ -52,11 +59,11 @@ class APCDisplayManager {
 	ofxMidiIn *midiIn;
 	ofxMidiOut *midiOut;
     ofxPiMapper *mapper;
-    ofSoundPlayer *player;
+    ofSoundPlayer **player;
 
 	int currently_selected_audio_clip = -1;
 
-    APCDisplayManager(ofxPiMapper *mapper, ofxMidiIn *midiIn, ofxMidiOut *midiOut, ofSoundPlayer *player) {
+    APCDisplayManager(ofxPiMapper *mapper, ofxMidiIn *midiIn, ofxMidiOut *midiOut, ofSoundPlayer **player) {
         this->midiIn = midiIn;
         this->midiOut = midiOut;
         this->mapper = mapper;
@@ -66,12 +73,12 @@ class APCDisplayManager {
     int get_apcmini_note_for_preset(int i) {
         int row = 1 - (i/8);
         int column = i % 8;
-        int note = 0x30 + (row*8) + column;
+        int note = FIRST_PRESET_NOTE + (row*8) + column;
         //ofLogNotice("get_apcmini_note_for_preset(") << i << ") returning note " << note;
         return note;
     }
     int get_preset_for_apcmini_note(int i) {
-        int x = i - 0x30;
+        int x = i - FIRST_PRESET_NOTE;
         int row = 1 - (x / 8);
         int column = x % 8;
         int f_key = (row*8) + column;
@@ -79,18 +86,32 @@ class APCDisplayManager {
     }
 
     int get_apcmini_note_for_audio_slot(int i) {
-        int row = 1 - (i/8);
+        /*int row = (1+(NUM_AUDIO_CLIPS/8)) - (i/8);
         int column = i % 8;
         int note = 0x00 + (row*8) + column;
         //ofLogNotice("get_apcmini_note_for_audio_slot(") << i << ") returning note " << note;
-        return note;
+        return note;*/
+        return i;
     }
-    int get_audio_slot_for_apcmini_note(int i) {
-        int x = i;// - 0x30;
-        int row = 1 - (x / 8);
+    int get_audio_slot_for_apcmini_note(int x) {
+        return x;
+
+        /*int row = ((audio_filenames.size()/8)+1) - (x / 8);
         int column = x % 8;
-        int f_key = (row*8) + column;
-        return f_key;
+        int clip = (row * 8) + column;
+        ofLogNotice("get_audio_slot_for_apcmini_note(") << x << ") got " << column << ", " << row << "(clip = " << clip << ")";
+        if (clip >= audio_filenames.size())
+            return -1;
+        return clip;*/
+        /*int row = (1+(NUM_AUDIO_CLIPS/8)) - (x / 8);
+        int column = x % 8;
+        int f_key = (row*8) + column;*/
+        /*int highest_note = ((NUM_AUDIO_CLIPS/8)+1) * 8;
+        int inverted = highest_note - x;
+        int column = inverted % 8;
+        int row = inverted / 8;
+        ofLogNotice("get_audio_slot_for_apcmini_note(") << x << ") got " << column << ", " << row << "(inverted = " << inverted << ")";
+        return (row*8) + (8-column);*/
     }
 
     void sendNoteOn(int channel, int pitch, int velocity, bool force = false) {
@@ -107,14 +128,22 @@ class APCDisplayManager {
 
     void indicateAudio(int clip, int value) {
         this->sendNoteOn(1, get_apcmini_note_for_audio_slot(clip), value);
+        //ofLogNotice("indicateAudio for ") << clip << " got note " << get_apcmini_note_for_audio_slot(clip);
     }
 
     void update() {
-        for (int i = 0 ; i < 16 ; i++) {
+        for (int i = 0 ; i < NUM_PRESETS ; i++) {
             indicatePreset(i, mapper->_application.getSurfaceManager()->getActivePresetIndex()==i ? APCMINI_GREEN : APCMINI_OFF);
         }
-        for (int i = 0 ; i < 16 ; i++) {
-            indicateAudio(i, currently_selected_audio_clip==i && player->isPlaying() ? APCMINI_GREEN_BLINK : APCMINI_OFF );
+        for (int i = 0 ; i < NUM_AUDIO_CLIPS ; i++) {
+            int colour;
+            if (currently_selected_audio_clip==i) {
+                ofSoundPlayer *p = *player;
+                colour = p->isPlaying() ? APCMINI_GREEN_BLINK : APCMINI_RED;
+            } else {
+                colour = APCMINI_OFF;
+            }
+            indicateAudio(i, colour);
         }
     }
 };

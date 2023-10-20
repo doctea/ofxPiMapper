@@ -48,6 +48,7 @@ public:
     CustomShader *customShader;
 
 	void newMidiMessage(ofxMidiMessage& eventArgs);
+	void trigger_clip(int clip);
 
 	APCDisplayManager *apc_display = nullptr;
 
@@ -56,12 +57,12 @@ public:
 	std::vector<ofxMidiMessage> midiMessages;
 	std::size_t maxMessages = 10; //< max number of messages to keep track of	
 
-	ofSoundPlayer audio_player;
-	std::vector<string> audio_filenames = {
-		"sources/audio/arts etc 60s/part 1/Samples/01 - Strauss (R)- Also Sprach Zarathustra (2001 A Space Odyssey).wav",
-		"sources/audio/arts etc 60s/part 1/Samples/02. Kraftwerk - Spacelab (2009 Remaster).wav"
-	};
+	ofSoundPlayer *audio_player = &players[0];
 
 	ofMutex midiMutex; //< MIDI message access mutex 
 
+	ofSoundPlayer players[30];
+
 };
+
+extern std::vector<string> audio_filenames;
